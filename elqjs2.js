@@ -47,6 +47,34 @@ for (var number = 1; number <= 100; number++)
     }
     else console.log(number);
 
+/* 
+The solution for this exercise as included in Eloquent Javascript is pretty 
+different than mine, so I decided to include it here:
+*/
+
+for (var n = 1; n <= 100; n++) {
+  var output = "";
+  if (n % 3 == 0)
+    output += "Fizz";
+  if (n % 5 == 0)
+    output += "Buzz";
+  console.log(output || n);
+}
+
+/*
+NOTES:
+What's really interesting to me is that last console.log. The author uses the 
+"or" operator. After doing some research, I discovered the concepts of "truthy" 
+and falsey. Truthy is generally anything that is not-- false, 0, "", null, 
+undefined, or NaN. So in this case, if a number is not divisible by 3 or 5, it'll
+return the number rather than the empty string (output) because an empty string 
+would be considered falsey.
+
+It's also really cool that the author made it so the conditional statements run 
+into each other, concatenating "Fizz" and "Buzz" if both conditionals were 
+true.
+*/
+
 
 /*
 Exercise 3: Chess board
@@ -74,11 +102,12 @@ for any size, outputting a grid of the given width and
 height.
 */
 
-// Second try at chessboard exercise--- this one fulfills all parameters of
-// exercise instructions. Initially, the first function I created returned 
-// several strings that alternated instead of one string that was a complete
-// board.
-
+/*
+Second try at chessboard exercise--- this one fulfills all parameters of
+exercise instructions. Initially, the first function I created returned 
+several strings that alternated instead of one string that was a complete
+board.
+*/
 
 var size = 8
 var board = "";
