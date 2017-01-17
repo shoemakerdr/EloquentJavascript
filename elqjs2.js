@@ -74,30 +74,19 @@ for any size, outputting a grid of the given width and
 height.
 */
 
-// First try-- I now realize that this isn't technically correct because it 
-// doesn't produce ONE string with the chessboard on it. So I'm gonna try again
-// on this one.
+// Second try at chessboard exercise--- this one fulfills all parameters of
+// exercise instructions
+
 function chessboard(size) {
-    for (var row = 1; row <= size; row ++) {
-        if (row % 2 !== 0){
-            var gridOdd = "";
-            for (var space = 1; gridOdd.length < size; space++) {
-                if (space % 2 !== 0) {
-                    gridOdd += " ";
-                }
-                else gridOdd += "#";
+    var board = "";
+    for (var height = 0; height < size; height++) {
+        for (var width = 0; width < size; width++) {
+            if ((height + width) % 2 === 0) {
+                board +=" ";
             }
-            console.log(gridOdd);
+            else board += "#";
         }
-        else {
-            var gridEven = "";
-            for (var space = 1; gridEven.length < size; space++) {
-                if (space % 2 !== 0) {
-                    gridEven += "#";
-                }
-                else gridEven += " ";
-            }
-            console.log(gridEven);
-        }
+        board +="\n";
     }
+    console.log(board);
 }
