@@ -75,7 +75,9 @@ height.
 */
 
 // Second try at chessboard exercise--- this one fulfills all parameters of
-// exercise instructions
+// exercise instructions. Initially, the first function I created returned 
+// several strings that alternated instead of one string that was a complete
+// board.
 
 function chessboard(size) {
     var board = "";
