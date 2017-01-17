@@ -14,10 +14,10 @@ to output the following triangle:
 
 */
 
-function triangle() {
-    for (var character = "#"; character.length <= 7; character += "#")
-        console.log(character);
-}
+
+for (var character = "#"; character.length <= 7; character += "#")
+    console.log(character);
+
 
 /*
 Exercise 2: FizzBuzz
@@ -34,19 +34,19 @@ only one of those).
 
 */
 
-function fizzbuzz() {
-    for (var number = 1; number <= 100; number++)
-        if (number % 3 === 0 && number % 5 === 0) {
-            console.log("FizzBuzz");
-        }
-        else if (number % 3 === 0) {
-            console.log("Fizz");
-        }
-        else if (number % 5 === 0) {
-            console.log("Buzz");
-        }
-        else console.log(number);
-}
+
+for (var number = 1; number <= 100; number++)
+    if (number % 3 === 0 && number % 5 === 0) {
+        console.log("FizzBuzz");
+    }
+    else if (number % 3 === 0) {
+        console.log("Fizz");
+    }
+    else if (number % 5 === 0) {
+        console.log("Buzz");
+    }
+    else console.log(number);
+
 
 /*
 Exercise 3: Chess board
@@ -79,16 +79,16 @@ height.
 // several strings that alternated instead of one string that was a complete
 // board.
 
-function chessboard(size) {
-    var board = "";
-    for (var height = 0; height < size; height++) {
-        for (var width = 0; width < size; width++) {
-            if ((height + width) % 2 === 0) {
-                board +=" ";
-            }
-            else board += "#";
+
+var size = 8
+var board = "";
+for (var height = 0; height < size; height++) {
+    for (var width = 0; width < size; width++) {
+        if ((height + width) % 2 === 0) {
+            board +=" ";
         }
-        board +="\n";
+        else board += "#";
     }
-    console.log(board);
+    board +="\n";
 }
+console.log(board);
