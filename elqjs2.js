@@ -1,3 +1,5 @@
+// Chapter Two: Program Structure
+
 /*
 Exercise 1: Looping a triangle
 
