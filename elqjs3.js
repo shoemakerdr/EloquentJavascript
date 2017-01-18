@@ -61,3 +61,23 @@ takes a second argument that indicates the character that is to be counted
 (rather than counting only uppercase “B” characters). Rewrite countBs to make 
 use of this new function.
 */
+
+// Part A: "countBs function"
+function countBs(string){
+  var result = 0;
+  for (var counter = 0; counter < string.length; counter++) {
+    if (string.charAt(counter) === "B")
+      result++;
+  }
+  return result;
+}
+
+// Part B: "countChar function"
+function countChar(string, character){
+  var result = 0;
+  for (var counter = 0; counter < string.length; counter++) {
+    if (string.charAt(counter) === character)
+      result++;
+  }
+  return result;
+}
