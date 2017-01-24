@@ -186,11 +186,10 @@ function prepend(element,list){
 prepend(10, prepend(20, null));
 
 function nth(list,position){
-  var counter = 0;
-  for (var node = list; counter <= position; node = node.rest)
-    if (counter === position)
+  for (var node = list; position >= 0; node = node.rest)
+    if (position === 0)
       return node.value;
-    else counter++;
+    else position--;
 }
 nth(arrayToList([10, 20, 30]), 1);
 
