@@ -157,7 +157,20 @@ console.log(nth(arrayToList([10, 20, 30]), 1));
 */
 
 function arrayToList(array){
-  var i = 0; 
-  var list = {"value": array[i], "rest":arrayToList([array[i++]])};
+  var i = array.length - 2;
+  var list = {value: array[array.length - 1], rest: null};
+  while (i >= 0){
+    var newList = list;
+    list = {value: array[i], rest: newList};
+    i--;
+  }
   return list;
 }
+
+function listToArray(list){
+  var array = [];
+  for (var node = list; node; node = node.rest)
+    array.push(node.value);
+  return array;
+}
+listToArray(arrayToList([1,2,3,4]));
