@@ -174,3 +174,16 @@ function listToArray(list){
   return array;
 }
 listToArray(arrayToList([1,2,3,4]));
+
+//helper functions
+
+function prepend(element,list){
+  var newList = list;
+  list = {value: element, rest: newList};
+  return list;
+}
+prepend(10, prepend(20, null));
+
+function nth(){
+  
+}
