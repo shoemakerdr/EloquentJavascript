@@ -195,3 +195,10 @@ function nth(list,position){
 nth(arrayToList([10, 20, 30]), 1);
 
 // recursive version of nth function
+function nth(list,position){
+  if (position === 0)
+    return list.value;
+  else list = list.rest;
+    return nth(list,position - 1)
+}
+nth(arrayToList([10, 20, 30]), 1);
