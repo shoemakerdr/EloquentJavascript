@@ -166,6 +166,7 @@ function arrayToList(array){
   }
   return list;
 }
+arrayToList([10, 20, 30]);
 
 function listToArray(list){
   var array = [];
@@ -173,9 +174,9 @@ function listToArray(list){
     array.push(node.value);
   return array;
 }
-listToArray(arrayToList([1,2,3,4]));
+listToArray(arrayToList([10, 20, 30]));
 
-//helper functions
+// helper functions
 
 function prepend(element,list){
   var newList = list;
@@ -184,6 +185,13 @@ function prepend(element,list){
 }
 prepend(10, prepend(20, null));
 
-function nth(){
-  
+function nth(list,position){
+  var counter = 0;
+  for (var node = list; counter <= position; node = node.rest)
+    if (counter === position)
+      return node.value;
+    else counter++;
 }
+nth(arrayToList([10, 20, 30]), 1);
+
+// recursive version of nth function
