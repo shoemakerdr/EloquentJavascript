@@ -218,3 +218,18 @@ produces "object" for both values, you should do a deep comparison. But you have
 to take one silly exception into account: by a historical accident, typeof null 
 also produces "object".
 */
+
+function deepEqual(value1,value2){
+  if (typeof value1 == "object" && value1 != null && typeof value2 == "object" && value2 != null){
+    var propsInValue1 = 0, propsInValue2 = 0;
+    for (var prop in value1)
+      propsInValue1++;
+    for (var prop in value2){
+      propsInValue2++;
+      if (!(prop in value1) || !deepEqual(value1[prop],value2[prop]))
+        return false;
+    }
+    return propsInValue1 == propsInValue2;
+  }
+  else return value1 === value2;
+}
