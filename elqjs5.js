@@ -16,7 +16,7 @@ function flatten(arrays){
 
 //Ancestry file
 
-var ANCESTRY_FILE = [
+var ancestry = [
   {"name": "Carolus Haverbeke", "sex": "m", "born": 1832, "died": 1905, "father": "Carel Haverbeke", "mother": "Maria van Brussel"},
   {"name": "Emma de Milliano", "sex": "f", "born": 1876, "died": 1956, "father": "Petrus de Milliano", "mother": "Sophia van Damme"},
   {"name": "Maria de Rycke", "sex": "f", "born": 1683, "died": 1724, "father": "Frederik de Rycke", "mother": "Laurentia van Vlaenderen"},
@@ -69,3 +69,12 @@ Note that not all the mothers mentioned in the data are themselves present in
 the array. The byName object, which makes it easy to find a person’s object from
 their name, might be useful here.
 */
+function ageDifference(object){
+  var ageArray = [];
+  
+  object.forEach(function(person){
+    var mom = person.mother
+    if (mom != null)
+      console.log(mom);
+  })
+}
