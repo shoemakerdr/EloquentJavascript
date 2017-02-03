@@ -70,11 +70,26 @@ the array. The byName object, which makes it easy to find a person’s object fr
 their name, might be useful here.
 */
 function ageDifference(object){
-  var ageArray = [];
-  
-  object.forEach(function(person){
-    var mom = person.mother
-    if (mom != null)
-      console.log(mom);
-  })
+  var ages = 
+    object.map(function(person){
+      if (person.mother != null){
+      /*
+      return (mother.birth - child.birth);
+      */
+      }
+    });
+  function average(array){
+    function plus(a,b){return a + b;}
+    return array.reduce(plus) / array.length;
+  }
+  return average(ages);
 }
+
+ageDifference(ancestry);
+
+//
+//
+//
+//
+//
+//
