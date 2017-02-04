@@ -79,10 +79,16 @@ function ageDifference(object){
   var ages = 
     object.map(function(person){
       if (person.mother != null){
-      /*
-      return (mother.birth - child.birth);
-      */
+        var byName = {};
+        ancestry.forEach(function(ancestor) {
+          byName[ancestor.name] = ancestor;
+        });
+        var momObject = byName[person.mother];
+        console.log(momObject);
+        var motherAge = momObject.born;
+        var childAge = person.born;
       }
+      return (motherAge - childAge);
     });
   function average(array){
     function plus(a,b){return a + b;}
@@ -90,12 +96,4 @@ function ageDifference(object){
   }
   return average(ages);
 }
-
 ageDifference(ancestry);
-
-//
-//
-//
-//
-//
-//
