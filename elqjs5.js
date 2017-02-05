@@ -84,11 +84,12 @@ function ageDifference(object){
           byName[ancestor.name] = ancestor;
         });
         var momObject = byName[person.mother];
-        console.log(momObject);
-        var motherAge = momObject.born;
-        var childAge = person.born;
+        if (momObject.born != undefined){
+          var motherAge = momObject.born;
+          var childAge = person.born;
+          return (motherAge - childAge);
+        }
       }
-      return (motherAge - childAge);
     });
   function average(array){
     function plus(a,b){return a + b;}
