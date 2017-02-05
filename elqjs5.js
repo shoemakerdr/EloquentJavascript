@@ -83,13 +83,14 @@ function ageDifference(object){
         ancestry.forEach(function(ancestor) {
           byName[ancestor.name] = ancestor;
         });
-        var momObject = byName[person.mother];
-        if (momObject.born != undefined){
-          var motherAge = momObject.born;
-          var childAge = person.born;
-          return (motherAge - childAge);
+        var mom = byName[person.mother];
+        if (mom != undefined){
+          return person.born - mom.born;
         }
       }
+    });
+    ages = ages.filter(function(value){
+      return value != undefined;
     });
   function average(array){
     function plus(a,b){return a + b;}
