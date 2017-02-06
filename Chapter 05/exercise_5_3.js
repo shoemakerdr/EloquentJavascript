@@ -15,6 +15,11 @@ For bonus points, write a function groupBy that abstracts the grouping
 operation. It should accept as arguments an array and a function that computes
 the group for an element in the array and returns an object that maps group 
 names to arrays of group members.
+
+function average(array) {
+  function plus(a, b) { return a + b; }
+  return array.reduce(plus) / array.length;
+}
 */
 
 //Ancestry array
@@ -60,3 +65,17 @@ var ancestry = [
   {"name": "Jacobus Bernardus van Brussel", "sex": "m", "born": 1736, "died": 1809, "father": "Jan van Brussel", "mother": "Elisabeth Haverbeke"}
 ];
 
+function lifeExpectancy(dataSet){
+  var centuryObject = {};
+  dataSet.forEach(function(person){
+    var century = Math.ceil(person.died / 100);
+    if (centuryObject[century] == undefined){
+      centuryObject[century] = [person];
+    }
+    else 
+      centuryObject[century].push(person);
+  });
+  centuryObject.forEach(function(century){
+    
+  });
+}
