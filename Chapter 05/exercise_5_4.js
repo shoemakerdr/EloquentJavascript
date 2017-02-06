@@ -16,10 +16,18 @@ Write two functions, every and some, that behave like these methods, except that
 they take the array as their first argument rather than being a method.
 */
 
-function every(array, f){
-  
+function every(array, predicate){
+  for (var i = 0; i < array. length; i++){
+    if (predicate(array[i]) === false)
+      return false;
+  }
+  return true;
 }
 
-function some(array, f){
-  
+function some(array, predicate){
+  for (var i = 0; i < array. length; i++){
+    if (predicate(array[i]) === true)
+      return true;
+  }
+  return false;
 }
