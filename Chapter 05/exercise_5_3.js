@@ -69,13 +69,19 @@ function lifeExpectancy(dataSet){
   var centuryObject = {};
   dataSet.forEach(function(person){
     var century = Math.ceil(person.died / 100);
+    var age = person.died - person.born
     if (centuryObject[century] == undefined){
-      centuryObject[century] = [person];
+      centuryObject[century] = [age];
     }
     else 
-      centuryObject[century].push(person);
+      centuryObject[century].push(age);
   });
-  centuryObject.forEach(function(century){
-    
-  });
+  function average(array) {
+    function plus(a, b) { return a + b; }
+    return array.reduce(plus) / array.length;
+  }
+  for (var i in centuryObject){
+    centuryObject[i] = Number(average(centuryObject[i]).toFixed(1));
+  }
+  return centuryObject;
 }
