@@ -17,7 +17,7 @@ they take the array as their first argument rather than being a method.
 */
 
 function every(array, predicate){
-  for (var i = 0; i < array. length; i++){
+  for (var i = 0; i < array.length; i++){
     if (predicate(array[i]) === false)
       return false;
   }
@@ -25,7 +25,7 @@ function every(array, predicate){
 }
 
 function some(array, predicate){
-  for (var i = 0; i < array. length; i++){
+  for (var i = 0; i < array.length; i++){
     if (predicate(array[i]) === true)
       return true;
   }
