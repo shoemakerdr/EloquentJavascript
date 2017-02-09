@@ -55,20 +55,43 @@ function addHeight(string, times) {
 
 function StretchCell(inner, width, height) {
   this.inner = inner;
-  this.width = width;
-  this.height = height;
-}
-
 
   StretchCell.prototype.minWidth = function() {
-    return Math.max(this.inner.minWidth(), this.width);
+    return Math.max(this.inner.minWidth(), width);
   };
 
   StretchCell.prototype.minHeight = function() {
-    return Math.max(this.inner.minHeight(), this.height);
+    return Math.max(this.inner.minHeight(), height);
   };
+  
+}
 
 StretchCell.prototype.draw = function(width, height) {
   return this.inner.draw(width, 1)
     .concat(addHeight(repeat(" ", width), height - 1));
 };
+
+// Author's Solution
+
+function StretchCell(inner, width, height) {
+  this.inner = inner;
+  this.width = width;
+  this.height = height;
+}
+
+StretchCell.prototype.minWidth = function() {
+  return Math.max(this.width, this.inner.minWidth());
+};
+StretchCell.prototype.minHeight = function() {
+  return Math.max(this.height, this.inner.minHeight());
+};
+StretchCell.prototype.draw = function(width, height) {
+  return this.inner.draw(width, height);
+};
+
+/*
+It's pretty obvious how much better this code is than my own. I had a hard time
+understanding the instructions. I'll definitely have to keep looking into 
+constructors and methods and prototypes much much deeper. Hopefully, I'll get a
+better grasp on it soon.
+*/
