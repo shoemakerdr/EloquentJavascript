@@ -3,7 +3,7 @@ A repository for me to complete the exercises from "Eloquent Javascript" by Mari
 
 Contents
 
-(Part 1: Language)
+**(Part 1: Language)**
 
 1. Values, Types, and Operators (no exercises)
 
@@ -27,7 +27,7 @@ Contents
 
 11. Project: A Programming Language
 
-  (Part 2: Browser)
+  **(Part 2: Browser)**
   
 12. JavaScript and the Browser
 
@@ -45,8 +45,7 @@ Contents
 
 19. Project: A Paint Program
 
-
-  (Part 3: Node)
+  **(Part 3: Node)**
   
 20. Node.js
 
