@@ -1,10 +1,10 @@
 // Chapter 7: Electronic Life
 
 /*
-Plan for grid representing how the world will look. "#" will represent 
-walls/rock; "o" will represent "critters". This will be used to create a world 
-object, which will have a "toString" method (converting it to a printable 
-string) and a "turn" method (which updates the world object to reflect the 
+Plan for grid representing how the world will look. "#" will represent
+walls/rock; "o" will represent "critters". This will be used to create a world
+object, which will have a "toString" method (converting it to a printable
+string) and a "turn" method (which updates the world object to reflect the
 critters actions)
 */
 var plan = ["############################",
@@ -63,7 +63,7 @@ var directions = {
   "n": new Vector(0, 1),
   "nw": new Vector(-1, 1),
   "w": new Vector(-1, 0),
-  "sw": new Vector(-1, -1),  
+  "sw": new Vector(-1, -1),
 };
 // function to choose a random element from a given array
 function randomElement(array) {
@@ -75,9 +75,38 @@ var directionNames = "s se e ne n nw w sw".split(" ");
 function BouncingCritter() {
   this.direction = randomElement(directionNames);
 };
-// Gives BouncingCritter an act method, which 
+// Gives BouncingCritter an act method, which takes a view object as argument
+// which has a "look" method to which takes a direction and return a character.
+// If the character is a blank space, act returns an object with the type "move"
+// and a direction for the critter to move. If view doesn't find a blank space,
+// It uses the find method of the view object to find one. If it doesn't find a
+// blank space, it return null. To prevent this.direction from getting the value
+// null, || "s" is used.
 BouncingCritter.prototype.act = function(view) {
   if (view.look(this.direction) != " ")
     this.direction = view.find(" ") || "s";
-  return {type: "move", direction: this.direction}; 
+  return {type: "move", direction: this.direction};
 };
+// Function that takes legend and a character as arguments. It checks the
+// character against the legend and returns the constructor for the character.
+// If a blank space, it returns null.
+function elementFromChar(legend, ch) {
+  if (ch == " ")
+    return null;
+  var element = new legend[ch]();
+  element.originChar = ch;
+  return element;
+}
+// World constructor takes a map in the form of an array of strings (in our
+// case, it is the var plan earlier) and a legend as arguments. It creates a
+// grid from the map and hold it and the legend as properties.
+function World(map, legend) {
+  var grid = new Grid(map[0].length, map.length);
+  this.grid = grid;
+  this.legend = legend;
+// Sets the grid-- gives every character a vector coordinate to reference
+  map.forEach(function(line, y) {
+    for (var x = 0; x < line.length; x++)
+      grid.set(new Vector(x, y), elementFromChar(legend, line[x]));
+  });
+}
