@@ -110,3 +110,31 @@ function World(map, legend) {
       grid.set(new Vector(x, y), elementFromChar(legend, line[x]));
   });
 }
+// Function that takes an element (a character object) as an argument and returns the
+// character symbol.
+function charFromElement(element) {
+  if (element == null)
+    return " ";
+  else
+    return element.originChar;
+}
+// Modified toString method for World object that prints the world as a string
+// using the originChar values.
+World.prototype.toString = function() {
+  var output = "";
+  for (var y = 0; y < this.grid.height; y++) {
+    for (var x = 0; x < this.grid.width; x++) {
+      var element = this.grid.get(new Vector(x, y));
+      output+= charFromElement(element);
+    }
+    output += "\n";
+  }
+  return output;
+};
+// Wall constructor for wall object. Has no act method. Only for taking up
+// space.
+function Wall() {}
+// Printing a new world object out as a string
+var world = new World(plan, {"#": Wall,
+                             "o": BouncingCritter});
+console.log(world.toString());
