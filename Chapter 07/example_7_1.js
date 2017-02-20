@@ -110,8 +110,8 @@ function World(map, legend) {
       grid.set(new Vector(x, y), elementFromChar(legend, line[x]));
   });
 }
-// Function that takes an element (a character object) as an argument and returns the
-// character symbol.
+// Function that takes an element (a character object) as an argument and
+// returns the character symbol.
 function charFromElement(element) {
   if (element == null)
     return " ";
@@ -138,3 +138,27 @@ function Wall() {}
 var world = new World(plan, {"#": Wall,
                              "o": BouncingCritter});
 console.log(world.toString());
+// Defining a new forEach method for Grid objects. It uses the call method to
+// bind a specific "this" context to a particular function, which will mostly be
+// types of critters
+Grid.prototype.forEach = function(f, context) {
+  for (var y = 0; y < this.height; y++) {
+    for (var x = 0; x < this.width; x++) {
+      var value = this.space[x + y * this.width];
+      if (value != null)
+        f.call(context, value, new Vector(x, y));
+    }
+  }
+};
+// Turn method for the world object that takes the grid property and lets every
+// critter act then puts them in the "acted" array. If they are in the acted
+// array, they will be allowed to act. Otherwise, they will do nothing.
+World.prototype.turn = function() {
+  var acted = [];
+  this.grid.forEach(function(critter, vector) {
+    if (critter.act && acted.indexOf(critter) == -1) {
+      acted.push(critter);
+      this.letAct(critter,vector);
+    }
+  }, this);
+};
