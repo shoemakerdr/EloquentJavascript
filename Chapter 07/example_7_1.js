@@ -162,3 +162,67 @@ World.prototype.turn = function() {
     }
   }, this);
 };
+// letAct method allows critters to move. It assigns an action from the 
+// critter's act method (which takes a new View object as it's argument), checks
+// that the action is "move," checks that the the destination is in the grid and
+// is an empty space, then sets the old vector as null and the destination as
+// the critter.
+World.prototype.letAct = function (critter, vector) {
+  var action = critter.act(new View(this, vector));
+  if (action && action.type == "move") {
+    var dest = this.checkDestination(action, vector);
+    if (dest && this.grid.get(dest) == null) {
+      this.grid.set(vector, null);
+      this.grid.set(dest, critter);
+    }
+  }
+};
+// Method of World object that checks if the destination vector is a real
+// direction. If so, it checks if the destination is in the grid. If so, it 
+// returns the destination.
+World.prototype.checkDestination = function(action, vector) {
+  if (directions.hasOwnProperty(action.direction)) {
+    var dest = vector.plus(directions[action.direction]);
+    if (this.grid.isInside(dest))
+      return dest;
+  }
+};
+// View object is used to check if a particular vector has access to another
+// vector for action purposes.
+function View(world, vector) {
+  this.world = world;
+  this.vector = vector;
+}
+// Look method assigns a target vector in a chosen direction, checks if it is 
+// inside the grid,, then returns the character that is in the target. If it is
+// not in the grid, the Wall character is returned.
+View.prototype.look = function(dir) {
+  var target = this.vector.plus(directions[dir]);
+  if (this.world.grid.isInside(target))
+    return charFromElement(this.world.grid.get(target));
+  else
+    return "#";
+};
+// findAll method returns all directions with a given character. In our case,
+// we're looking for " " characters. Returns all instances of a character in all
+// 8 directions as an array.
+View.prototype.findAll = function(ch) {
+  var found = [];
+  for (var dir in directions)
+    if (this.look(dir) === ch)
+      found.push(dir);
+  return found;
+};
+// find method returns a random direction from the found array made with the 
+// findAll method.
+View.prototype.find = function(ch) {
+  var found = this.findAll(ch);
+  if (found.length === 0) return null;
+  return randomElement(found);
+};
+// Performs the turn method 5 times and logs the world as a string to the 
+// console.
+for(var i = 0; i < 5; i++) {
+  world.turn();
+  console.log(world.toString());
+}
