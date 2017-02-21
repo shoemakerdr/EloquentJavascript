@@ -26,6 +26,7 @@ function Vector(x,y) {
   this.x = x;
   this.y = y;
 }
+// Adds one vector coordinate to another and returns that as a new vector.
 Vector.prototype.plus = function(other) {
   return new Vector(this.x + other.x, this.y + other.y)
 };
@@ -45,7 +46,8 @@ Grid.prototype.isInside = function(vector) {
   return vector.x >= 0 && vector.x < this.width &&
          vector.y >= 0 && vector.y < this.height;
 };
-// Method for getting value (character) in a given coordinate
+// Method for getting value (character) in a given coordinate. Returns the
+// character of a given vector coordinate.
 Grid.prototype.get = function(vector) {
   return this.space[vector.x + this.width * vector.y];
 };
@@ -65,7 +67,7 @@ var directions = {
   "w": new Vector(-1, 0),
   "sw": new Vector(-1, -1),
 };
-// function to choose a random element from a given array
+// Function returns a random element from a given array.
 function randomElement(array) {
   return array[Math.floor(Math.random() * array.length)];
 }
@@ -118,7 +120,7 @@ function charFromElement(element) {
   else
     return element.originChar;
 }
-// Modified toString method for World object that prints the world as a string
+// Modified toString method for World object that returns the world as a string
 // using the originChar values.
 World.prototype.toString = function() {
   var output = "";
