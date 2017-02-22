@@ -58,14 +58,14 @@ Grid.prototype.set = function(vector, value) {
 // Directions object for mapping direction names to coordinate changes
   //NOTE: Directions in book had north and south mixed up
 var directions = {
-  "s": new Vector(0, -1),
-  "se": new Vector(1, -1),
-  "e": new Vector(1, 0),
-  "ne": new Vector(1, 1),
   "n": new Vector(0, 1),
-  "nw": new Vector(-1, 1),
-  "w": new Vector(-1, 0),
+  "ne": new Vector(1, 1),
+  "e": new Vector(1, 0),
+  "se": new Vector(1, -1),
+  "s": new Vector(0, -1),
   "sw": new Vector(-1, -1),
+  "w": new Vector(-1, 0),
+  "nw": new Vector(-1, 1),
 };
 // Function returns a random element from a given array.
 function randomElement(array) {
@@ -152,9 +152,10 @@ Grid.prototype.forEach = function(f, context) {
     }
   }
 };
-// Turn method for the world object that takes the grid property and lets every
-// critter act then puts them in the "acted" array. If they are in the acted
-// array, they will be allowed to act. Otherwise, they will do nothing.
+// Turn method for the world object that takes the grid, searches for objects
+// that have an act method and when found, calls the method to get an action
+// object, then carries out the action when it is valid, and puts them in the 
+// "acted" array. If they are already in the acted array, they will do nothing.
 World.prototype.turn = function() {
   var acted = [];
   this.grid.forEach(function(critter, vector) {
@@ -228,3 +229,35 @@ for(var i = 0; i < 5; i++) {
   world.turn();
   console.log(world.toString());
 }
+// dirPlus function makes direction changes calculable by adding the direction
+// change and the number of elements in the directions array to the index number
+// and then getting the modulus value. Positive n goes clockwise, negative n 
+// goes counter-clockwise.
+function dirPlus(dir, n) {
+  var index = directionNames.indexOf(dir);
+  return directionNames[(index + n + 8) % 8];
+}
+// WallFollower object's default starting direction is south.
+function WallFollower() {
+  this.dir = "s";
+}
+/*
+The act method of this critter first assigns the WallFollower's default
+direction to the start variable. It uses the look method on the View object
+to check if the vector to just behind the critter's left (3 vectors 
+counter-clockwise from the starting position) is open. If not, both the start
+value and default direction of the object are changed to the critter's left 
+(2 vectors counter-clockwise from the original default direction). This is so
+the critter is always checking its left side first to make sure it is always
+following along the wall.
+*/
+WallFollower.prototype.act = function(view) {
+  var start = this.dir;
+  if (view.look(dirPlus(this.dir, -3)) != " ")
+    start = this.dir = dirPlus(this.dir, -2);
+  while (view.look(this.dir) != " ") {
+    this.dir = dirPlus(this.dir, 1);
+    if (this.dir == start) break;
+  }
+  return {type: "move", direction: this.dir};
+};
