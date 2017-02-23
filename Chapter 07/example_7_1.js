@@ -362,8 +362,8 @@ function Plant() {
   this.energy = 3 + Math.random() * 4;
 }
 /*
-Add act method to plant object. If the plant's energy is more than 15, it
-uses the find method of the view object to find a blank space. If it finds
+Add act method to plant object prototype. If the plant's energy is more than 15,
+it uses the find method of the view object to find a blank space. If it finds
 /space, it returns an object with with a "reproduce" type and the vector
 coordinates of the blank space. If its energy is less than 20, it returns an
 object with a "grow" type.
@@ -377,11 +377,19 @@ Plant.prototype.act = function(view) {
   if (this.energy < 20)
     return {type: "grow"};
 };
-
+// PlantEater constructor function initializes the PlantEater object's energy at
+// 20.
 function PlantEater() {
   this.energy = 20;
 }
-
+/* 
+Gives an act method to the PlantEater object prototype. First it uses the find
+method of the view object to find a blank space and assigns it to the variable
+"space." If the PlantEater's energy is greater than 60 and the destination space
+is blank, it returns the "reproduce" object. If not, it searches for plants, and
+if it finds a plant, it returns the "eat" object. Else, if there is an empty
+space, it returns the "move" object.
+*/
 PlantEater.prototype.act = function(view) {
   var space = view.find(" ");
   if (this.energy > 60 && space)
