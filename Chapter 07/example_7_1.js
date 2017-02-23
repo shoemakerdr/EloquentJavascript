@@ -154,7 +154,7 @@ Grid.prototype.forEach = function(f, context) {
 };
 // Turn method for the world object that takes the grid, searches for objects
 // that have an act method and when found, calls the method to get an action
-// object, then carries out the action when it is valid, and puts them in the 
+// object, then carries out the action when it is valid, and puts them in the
 // "acted" array. If they are already in the acted array, they will do nothing.
 World.prototype.turn = function() {
   var acted = [];
@@ -165,7 +165,7 @@ World.prototype.turn = function() {
     }
   }, this);
 };
-// letAct method allows critters to move. It assigns an action from the 
+// letAct method allows critters to move. It assigns an action from the
 // critter's act method (which takes a new View object as it's argument), checks
 // that the action is "move," checks that the the destination is in the grid and
 // is an empty space, then sets the old vector as null and the destination as
@@ -181,7 +181,7 @@ World.prototype.letAct = function (critter, vector) {
   }
 };
 // Method of World object that checks if the destination vector is a real
-// direction. If so, it checks if the destination is in the grid. If so, it 
+// direction. If so, it checks if the destination is in the grid. If so, it
 // returns the destination.
 World.prototype.checkDestination = function(action, vector) {
   if (directions.hasOwnProperty(action.direction)) {
@@ -196,7 +196,7 @@ function View(world, vector) {
   this.world = world;
   this.vector = vector;
 }
-// Look method assigns a target vector in a chosen direction, checks if it is 
+// Look method assigns a target vector in a chosen direction, checks if it is
 // inside the grid,, then returns the character that is in the target. If it is
 // not in the grid, the Wall character is returned.
 View.prototype.look = function(dir) {
@@ -216,14 +216,14 @@ View.prototype.findAll = function(ch) {
       found.push(dir);
   return found;
 };
-// find method returns a random direction from the found array made with the 
+// find method returns a random direction from the found array made with the
 // findAll method.
 View.prototype.find = function(ch) {
   var found = this.findAll(ch);
   if (found.length === 0) return null;
   return randomElement(found);
 };
-// Performs the turn method 5 times and logs the world as a string to the 
+// Performs the turn method 5 times and logs the world as a string to the
 // console.
 for(var i = 0; i < 5; i++) {
   world.turn();
@@ -231,7 +231,7 @@ for(var i = 0; i < 5; i++) {
 }
 // dirPlus function makes direction changes calculable by adding the direction
 // change and the number of elements in the directions array to the index number
-// and then getting the modulus value. Positive n goes clockwise, negative n 
+// and then getting the modulus value. Positive n goes clockwise, negative n
 // goes counter-clockwise.
 function dirPlus(dir, n) {
   var index = directionNames.indexOf(dir);
@@ -244,9 +244,9 @@ function WallFollower() {
 /*
 The act method of this critter first assigns the WallFollower's default
 direction to the start variable. It uses the look method on the View object
-to check if the vector to just behind the critter's left (3 vectors 
+to check if the vector to just behind the critter's left (3 vectors
 counter-clockwise from the starting position) is open. If not, both the start
-value and default direction of the object are changed to the critter's left 
+value and default direction of the object are changed to the critter's left
 (2 vectors counter-clockwise from the original default direction). This is so
 the critter is always checking its left side first to make sure it is always
 following along the wall.
@@ -272,12 +272,79 @@ var actionTypes = Object.create(null);
 
 LifelikeWorld.prototype.letAct = function(critter, vector) {
   var action = critter.act(new View(this, vector));
-  var handled = action && 
-                action.type in actionTypes && 
+  var handled = action &&
+                action.type in actionTypes &&
                 actionTypes[action.type].call(this, critter, vector, action);
   if (!handled) {
     critter.energy -= 0.2;
     if (critter.energy <= 0)
       this.grid.set(vector, null);
   }
+};
+
+actionTypes.grow = function(critter) {
+  critter.energy += 0.5;
+  return true;
+};
+
+actionTypes.move = function(critter, vector, action) {
+  var dest = this.checkDestination(action, vector);
+  if (dest == null ||
+      critter.energy <= 1 ||
+      this.grid.get(dest) != null)
+    return false;
+  critter.energy -= 1;
+  this.grid.set(vector, null);
+  this.grid.set(dest, critter);
+  return true;
+};
+
+actionTypes.eat = function(critter, vector, action) {
+  var dest = this.checkDestination(action, vector);
+  var at Dest = dest != null && this.grid.get(dest);
+  if (!atDest || atDest.energy == null)
+    return false;
+  critter.energy += atDest.energy;
+  this.grid.set(dest, null);
+  return true;
+};
+
+actionTypes.reproduce = function(critter, vector, action) {
+  var baby = elementFromChar(this.legend, critter.originChar);
+  var dest = this.checkDestination(action, vector);
+  if (dest == null ||
+      critter.energy <= 2 * baby.energy ||
+      this.grid.get(dest) != null)
+    return false;
+  critter.energy -= 2 * baby.energy;
+  this.grid.set(dest, baby);
+  return true;
+};
+
+function Plant() {
+  this.energy = 3 + Math.random() * 4;
+}
+
+Plant.prototype.act = function(view) {
+  if (this.energy > 15) {
+    var space = view.find(" ");
+    if (space)
+      return {type: "reproduce", direction: space};
+  }
+  if (this.energy < 20)
+    return {type: "grow"};
+};
+
+fuction PlantEater() {
+  this.energy = 20;
+}
+PlantEater.prototype.act = function(view) {
+  var space = view.find(" ");
+  if (this.energy > 60 && space)
+    return {type: "reproduce", direction: space};
+  var plant = view.find("*");
+  if (plant)
+    return {type: "eat", direction: plant};
+  if (space)
+    return {type: "move", direction: space};
 };
