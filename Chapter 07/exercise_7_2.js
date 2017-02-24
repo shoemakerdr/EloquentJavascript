@@ -13,3 +13,7 @@ booms or busts are less likely to wipe out a species entirely, and there is
 space for the relatively large prey population needed to sustain a small
 predator population.
 */
+
+function Tiger() {
+  
+}

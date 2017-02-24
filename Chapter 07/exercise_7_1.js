@@ -17,3 +17,7 @@ Write a new critter type that tries to address one or more of these points and
 substitute it for the old PlantEater type in the valley world. See how it fares.
 Tweak it some more if necessary.
 */
+
+function SmartPlantEater() {
+    
+}
