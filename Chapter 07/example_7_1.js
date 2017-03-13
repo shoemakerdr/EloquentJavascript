@@ -261,7 +261,7 @@ WallFollower.prototype.act = function(view) {
   }
   return {type: "move", direction: this.dir};
 };
-// New constructor for LifelikeWorld that it created by using the call method 
+// New constructor for LifelikeWorld that it created by using the call method
 // for the previously used World constructor.
 function LifelikeWorld(map, legend) {
   World.call(this. map, legend);
@@ -277,11 +277,11 @@ Defining a new letAct method for the LifelikeWorld object-- which overrides the
 letAct method it inherited from being created from World prototype. This method
 first assigns the critter's act method to the variable "action." It then assigns
 boolean values (if the critter took an action, if the action type is in the
-actionTypes object, and if there was a successful call to the type in 
+actionTypes object, and if there was a successful call to the type in
 actionTypes) and a function (a type of action from actionTypes) with the call
 method to the variable "handled." If the handled variable returns false, meaning
 that the critter did not take an action, it takes 0.2 energy away from the
-critter. And if the critter's energy is less than/equal to 0, the vector that 
+critter. And if the critter's energy is less than/equal to 0, the vector that
 the critter occupies is set to null (i.e. the critter is dead).
 */
 LifelikeWorld.prototype.letAct = function(critter, vector) {
@@ -303,7 +303,7 @@ actionTypes.grow = function(critter) {
 };
 /*
 The move method uses checkDestination method (which get the LifelikeWorld's
-"this" value because the call method was used in its letAct method) to return 
+"this" value because the call method was used in its letAct method) to return
 the destination vector. If null is return, the critter has less than 1 energy or
 the destination is not empty, it returns false. Else it subtracts 1 energy from
 the critter, sets its current vector to null, sets its destination vector to the
@@ -322,9 +322,9 @@ actionTypes.move = function(critter, vector, action) {
 };
 /*
 The eat method uses checkDestination method (like in move method) to return the
-destination vector. Then assigns boolean of dest and the boolean/get value of 
+destination vector. Then assigns boolean of dest and the boolean/get value of
 the grid object (with dest as its arg). If atDest returns false or there is no
-energy at the destination, it returns false. Else it adds the destination's 
+energy at the destination, it returns false. Else it adds the destination's
 energy to the critter and sets the destination to null.
 */
 actionTypes.eat = function(critter, vector, action) {
@@ -340,7 +340,7 @@ actionTypes.eat = function(critter, vector, action) {
 The reproduce method first assigns a new critter to the variable "baby" by
 calling the elementFromChat method of the LifelikeWorld object. Then it uses the
 checkDestination method to assign the destination vector to a variable "dest."
-If dest returns null, the critter's energy is less than double the baby's 
+If dest returns null, the critter's energy is less than double the baby's
 energy, or the destination is not a blank space, it returns false. Else, it
 subtracts two times the baby's energy, sets the destination vector to the baby,
 and returns true.
@@ -382,7 +382,7 @@ Plant.prototype.act = function(view) {
 function PlantEater() {
   this.energy = 20;
 }
-/* 
+/*
 Gives an act method to the PlantEater object prototype. First it uses the find
 method of the view object to find a blank space and assigns it to the variable
 "space." If the PlantEater's energy is greater than 60 and the destination space
