@@ -39,30 +39,30 @@ matter of taste.
 
 **Solution**
 Module "grid"
-  Vector
-  Grid
-  directions
-  directionNames
+- Vector
+- Grid
+- directions
+- directionNames
 
 Module "world"
-  (randomElement)
-  (elementFromChar)
-  (charFromElement)
-  View
-  World
-  LifelikeWorld
-  directions [reexported]
+- (randomElement)
+- (elementFromChar)
+- (charFromElement)
+- View
+- World
+- LifelikeWorld
+- directions [reexported]
 
 Module "simple_ecosystem"
-  (randomElement) [duplicated]
-  (dirPlus)
-  Wall
-  BouncingCritter
-  WallFollower
+- (randomElement) [duplicated]
+- (dirPlus)
+- Wall
+- BouncingCritter
+- WallFollower
 
 Module "ecosystem"
-  Wall [duplicated]
-  Plant
-  PlantEater
-  SmartPlantEater
-  Tiger
+- Wall [duplicated]
+- Plant
+- PlantEater
+- SmartPlantEater
+- Tiger
