@@ -15,5 +15,18 @@ predator population.
 */
 
 function Tiger() {
-  
+  this.energy = 30;
+  this.direction = "s";
 }
+
+Tiger.prototype.act = function(view) {
+  var space = view.find(" ");
+  if (this.energy > 180 && space)
+    return {type: "reproduce", direction: space};
+  var prey = view.find("O");
+  if (prey)
+    return {type: "eat", direction: randomElement(prey)};
+  if (view.look(this.direction) != " " && space)
+    this.direction = space;
+  return {type: "move", direction: this.direction};
+};

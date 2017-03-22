@@ -18,28 +18,18 @@ substitute it for the old PlantEater type in the valley world. See how it fares.
 Tweak it some more if necessary.
 */
 
-
-/* 
-Gives an act method to the PlantEater object prototype. First it uses the find
-method of the view object to find a blank space and assigns it to the variable
-"space." If the PlantEater's energy is greater than 60 and the destination space
-is blank, it returns the "reproduce" object. If not, it searches for plants, and
-if it finds a plant, it returns the "eat" object. Else, if there is an empty
-space, it returns the "move" object.
-*/
-
 // my code
 function SmartPlantEater() {
   this.energy = 30;
-  this.dir = "e";
+  this.direction = "e";
 }
 
-SmartPlantEater.prototype.act = function() {
+SmartPlantEater.prototype.act = function(view) {
   var space = view.find(" ");
   if (this.energy > 90 && space)
     return {type: "reproduce", direction: space};
   var plants = view.findAll("*");
-  if (plants.length > 1)
+  if (plants.length > 2)
     return {type: "eat", direction: randomElement(plants)};
   if (view.look(this.direction) != " " && space)
     this.direction = space;
