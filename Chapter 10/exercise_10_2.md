@@ -1,6 +1,6 @@
-***Chapter 10: Modules***
+*Chapter 10: Modules*
 
-Exercise 2: A return to electronic life
+***Exercise 2: A return to electronic life***
 
 Hoping that Chapter 7 is still somewhat fresh in your mind, think back to the 
 system designed in that chapter and come up with a way to separate the code into
@@ -36,3 +36,33 @@ inaccessible to other modules.
 
 There is no single correct solution here. Module organization is largely a
 matter of taste.
+
+**Solution**
+Module "grid"
+  Vector
+  Grid
+  directions
+  directionNames
+
+Module "world"
+  (randomElement)
+  (elementFromChar)
+  (charFromElement)
+  View
+  World
+  LifelikeWorld
+  directions [reexported]
+
+Module "simple_ecosystem"
+  (randomElement) [duplicated]
+  (dirPlus)
+  Wall
+  BouncingCritter
+  WallFollower
+
+Module "ecosystem"
+  Wall [duplicated]
+  Plant
+  PlantEater
+  SmartPlantEater
+  Tiger

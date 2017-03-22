@@ -25,7 +25,7 @@ Tiger.prototype.act = function(view) {
     return {type: "reproduce", direction: space};
   var prey = view.find("O");
   if (prey)
-    return {type: "eat", direction: randomElement(prey)};
+    return {type: "eat", direction: prey};
   if (view.look(this.direction) != " " && space)
     this.direction = space;
   return {type: "move", direction: this.direction};

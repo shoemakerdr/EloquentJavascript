@@ -28,7 +28,7 @@ function Vector(x,y) {
 }
 // Adds one vector coordinate to another and returns that as a new vector.
 Vector.prototype.plus = function(other) {
-  return new Vector(this.x + other.x, this.y + other.y)
+  return new Vector(this.x + other.x, this.y + other.y);
 };
 
 // Grid object (which will be a property of the World object) models the grid.
@@ -76,7 +76,7 @@ var directionNames = "s se e ne n nw w sw".split(" ");
 //Constructor for critter object
 function BouncingCritter() {
   this.direction = randomElement(directionNames);
-};
+}
 // Gives BouncingCritter an act method, which takes a view object as argument
 // which has a "look" method to which takes a direction and return a character.
 // If the character is a blank space, act returns an object with the type "move"
