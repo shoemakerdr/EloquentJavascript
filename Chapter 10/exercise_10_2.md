@@ -7,24 +7,24 @@ system designed in that chapter and come up with a way to separate the code into
 modules. To refresh your memory, these are the functions and types defined in
 that chapter, in order of appearance:
 
-Vector
-Grid
-directions
-directionNames
-randomElement
-BouncingCritter
-elementFromChar
-World
-charFromElement
-Wall
-View
-WallFollower
-dirPlus
-LifelikeWorld
-Plant
-PlantEater
-SmartPlantEater
-Tiger
+- Vector
+- Grid
+- directions
+- directionNames
+- randomElement
+- BouncingCritter
+- elementFromChar
+- World
+- charFromElement
+- Wall
+- View
+- WallFollower
+- dirPlus
+- LifelikeWorld
+- Plant
+- PlantEater
+- SmartPlantEater
+- Tiger
 
 Don’t exaggerate and create too many modules. A book that starts a new chapter
 for every page would probably get on your nerves, if only because of all the
