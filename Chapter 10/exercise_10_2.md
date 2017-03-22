@@ -38,6 +38,7 @@ There is no single correct solution here. Module organization is largely a
 matter of taste.
 
 **Solution**
+
 Module "grid"
 - Vector
 - Grid
