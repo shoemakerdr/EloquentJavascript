@@ -1,0 +1,149 @@
+<!--
+Chapter 13: The Document Object Model
+
+Example code
+-->
+
+<!-- Example Document Structure -->
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>My home page</title>
+  </head>
+  <body>
+    <h1>My home page</h1>
+    <p>Hello, I am Marijn and this is my home page.</p>
+    <p>I also wrote a book! Read it <a href="http://eloquenthavascript.net">here</a>.</p>
+  </body>
+</html>
+
+<!-- Moving through node tree -->
+<script>
+  // function that searches through all nodes in a document until it finds a
+  // text node of a specific string.
+  function talksAbout(node, string) {
+    // checks if node argument is an element node
+    if (node.nodeType == document.ELEMENT_NODE) {
+      // loops through all child nodes of element node, then recursively
+      // searches through its child nodes
+      for (var i = 0; i < node.childNodes.length; i++) {
+        if (talksAbout(node.childNodes[i], string))
+          return true;
+      }
+      // returns false if no children
+      return false;
+    // if node is text node, returns index position of string or -1 if not found 
+    } else if (node.nodeType == document.TEXT_NODE) {
+      // nodeValue property refers to string of text in said node
+      return node.nodeValue.indexOf(string) > -1;
+    }
+  }
+  
+  console.log(talksAbout(document.body, "book"));
+  // true
+</script>
+
+<!-- Finding Elements -->
+
+<script>
+  // getElementsByTagName takes a tag name as a string and returns a array-like 
+  // object of all nodes of given tag name.
+  var link = document.body.getElementsByTagName("a")[0];
+  // logs URL in href attribute to console
+  console.log(link.href);
+</script>
+
+<!-- -->
+<p>My ostrich Gertrude:</p>
+<p><img id"gertrude" src="img/ostrich.png"></p>
+
+<script>
+  // getElementById takes an id name as a string and returns the element
+  // associated with that id
+  var ostrich = document.getElementById("gertrude");
+  // logs source URL to console as part of src attribute of element
+  console.log(ostrich.src);
+</script>
+
+<!-- Changing the Document -->
+<p>One</p>
+<p>Two</p>
+<p>Three</p>
+
+<script>
+  // assigns array of all "p" nodes in body to paragraphs variable
+  var paragraphs = document.body.getElementsByTagName("p");
+  // insertBefore method takes a node (1st argument) and inserts it before 
+  // another node (2nd argument). The inserted node will be removed from its
+  // current position if it has one.
+  document.body.insertBefore(paragraphs[2], paragraphs[0]);
+</script>
+
+<!-- Creating Nodes -->
+<p>The <img src="img/cat.png" alt="Cat"> in the <img src="img/hat.png" 
+  alt="Hat">.</p>
+  
+  <p><button onclick="replaceImages()">Replace</button></p>
+  
+<script>
+// This function replaces images with the text from their alt attribute
+  function replaceImages() {
+    // assigns img elements to array-like object
+    var images = document.body.getElementsByTagName("img");
+    // loops through array
+    for (var i = images.length - 1; i >= 0; i--) {
+      var image = images[i];
+      // if the image has an alt property, it creates a text node with the alt
+      // text, then replaces the image with the new text node.
+      if (image.alt) {
+        var text = document.createTextNode(image.alt);
+        // accesses replaceChild method through the parentNode property
+        image.parentNode.replaceChild(text,image);
+      }
+    }
+  }
+</script>
+  
+
+<script>
+  // assign array-like object to variable
+  var arrayish = {0: "one", 1: "two", length: 2};
+  // uses slice method to create array from array-like object. Array-like
+  // objects use 0 based numbering for properties, with last property as
+  // length
+  var real = Array.prototype.slice.call(arrayish, 0);
+  // console logs every element in array
+  real.forEach(function(elt) {console.log(elt);});
+</script>
+
+
+<blockquote id="quote">
+  No book can ever be finished. While working on it we learn just enough to 
+  find it immature the moment we turn away from it.
+</blockquote>
+
+
+<script>
+  // function creates an element of a given type
+  function elt(type) {
+    // assigns new element node to node variable
+    var node = document.createElement(type);
+    // takes all other arguments as children of new element node
+    for (var i = 1; i < arguments.length; i++) {
+      var child = arguments[i];
+      // if argument is a string, creates a new text node
+      if (typeof child == "string")
+        child = document.createTextNode(child);
+      // appends new child node to element node
+      node.appendChild(child);
+    }
+    return node;
+  }
+  
+  document.getElementById("quote").appendChild(
+    elt("footer", "-",
+      elt("strong", "Karl Popper"),
+      ", preface to the second edition of ",
+      elt("em", "The Open Society and Its Enemies"),
+      ", 1950"));
+</script>
