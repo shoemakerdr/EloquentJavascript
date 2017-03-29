@@ -13,7 +13,8 @@ Example code
   <body>
     <h1>My home page</h1>
     <p>Hello, I am Marijn and this is my home page.</p>
-    <p>I also wrote a book! Read it <a href="http://eloquenthavascript.net">here</a>.</p>
+    <p>I also wrote a book! Read it <a href="http://eloquenthavascript.net">
+      here</a>.</p>
   </body>
 </html>
 
@@ -32,13 +33,13 @@ Example code
       }
       // returns false if no children
       return false;
-    // if node is text node, returns index position of string or -1 if not found 
+    // if node is text node, returns index position of string or -1 if not found
     } else if (node.nodeType == document.TEXT_NODE) {
       // nodeValue property refers to string of text in said node
       return node.nodeValue.indexOf(string) > -1;
     }
   }
-  
+
   console.log(talksAbout(document.body, "book"));
   // true
 </script>
@@ -46,7 +47,7 @@ Example code
 <!-- Finding Elements -->
 
 <script>
-  // getElementsByTagName takes a tag name as a string and returns a array-like 
+  // getElementsByTagName takes a tag name as a string and returns a array-like
   // object of all nodes of given tag name.
   var link = document.body.getElementsByTagName("a")[0];
   // logs URL in href attribute to console
@@ -73,18 +74,18 @@ Example code
 <script>
   // assigns array of all "p" nodes in body to paragraphs variable
   var paragraphs = document.body.getElementsByTagName("p");
-  // insertBefore method takes a node (1st argument) and inserts it before 
+  // insertBefore method takes a node (1st argument) and inserts it before
   // another node (2nd argument). The inserted node will be removed from its
   // current position if it has one.
   document.body.insertBefore(paragraphs[2], paragraphs[0]);
 </script>
 
 <!-- Creating Nodes -->
-<p>The <img src="img/cat.png" alt="Cat"> in the <img src="img/hat.png" 
+<p>The <img src="img/cat.png" alt="Cat"> in the <img src="img/hat.png"
   alt="Hat">.</p>
-  
+
   <p><button onclick="replaceImages()">Replace</button></p>
-  
+
 <script>
 // This function replaces images with the text from their alt attribute
   function replaceImages() {
@@ -103,7 +104,7 @@ Example code
     }
   }
 </script>
-  
+
 
 <script>
   // assign array-like object to variable
@@ -118,7 +119,7 @@ Example code
 
 
 <blockquote id="quote">
-  No book can ever be finished. While working on it we learn just enough to 
+  No book can ever be finished. While working on it we learn just enough to
   find it immature the moment we turn away from it.
 </blockquote>
 
@@ -139,11 +140,46 @@ Example code
     }
     return node;
   }
-  
+
   document.getElementById("quote").appendChild(
     elt("footer", "-",
       elt("strong", "Karl Popper"),
       ", preface to the second edition of ",
       elt("em", "The Open Society and Its Enemies"),
       ", 1950"));
+</script>
+
+<!-- Attributes -->
+<p data-classified="secret">The launch code is 00000000.</p>
+<p data-classified="unclassified">I have two feet.</p>
+
+<script>
+  // assigns array-like object of all paragraph elements to paras variable
+  var paras = document.body.getElementsByTagName("p");
+  // uses forEach method cycle through paragraphs
+  Array.prototype.forEach.call(paras, function(para){
+    // checking data-classified attribute-- if "secret," use the parentNode
+    // property and removeChild method to delete node.
+    if (para.getAttribute("data-classified") == "secret")
+      para.parentNode.removeChild(para);
+  });
+</script>
+
+<script>
+  function highlightCode(node, keywords) {
+    var text = node.textContent;
+    node.textContent = ""; //Clear the node
+
+    var match, pos = 0;
+    while (match = keywords.exec(text)) {
+      var before = text.slice(pos, match.index);
+      node.appendChild(document.createTextNode(before));
+      var strong = document.createElement("strong");
+      strong.appendChild(document,createTextNode(match[0]));
+      node.appendChild(strong);
+      pos = keywords.lastIndex;
+    }
+    var after = text.slice(pos);
+    node.appendChild(document.createTextNode(after));
+  }
 </script>
