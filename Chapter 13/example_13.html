@@ -175,7 +175,7 @@ Example code
       var before = text.slice(pos, match.index);
       node.appendChild(document.createTextNode(before));
       var strong = document.createElement("strong");
-      strong.appendChild(document,createTextNode(match[0]));
+      strong.appendChild(document.createTextNode(match[0]));
       node.appendChild(strong);
       pos = keywords.lastIndex;
     }
