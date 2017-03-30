@@ -64,9 +64,67 @@ var dateTime = /\d{1,2}-\d{1,2}-\d{4} \d{1,2}:\d{2}/;
 console.log(dateTime.test("30-1-2003 8:45"));
 // --> true
 
-// wrapping elements in parentheses indicates that they are a single element--
-// operators like * or + can be used with them
+// wrapping elements in parentheses indicates that they are a single element 
+// (subexpression)-- operators like * or + can be used with them
 var cartoonCrying = /boo+(hoo+)+/i;
 console.log(cartoonCrying.test("Boohoooohoohooo"));
 // --> true
 
+// execute (exec) method returns an object with information about the match or
+// null if no match found
+var match = /\d+/.exec("one two 100");
+console.log(match);
+// --> ["100"]
+console.log(match.index);
+// --> 8
+
+// Strings have a "match" method that behaves similarly
+console.log("one two 100".match(/\d+/));
+// --> ["100"]
+
+// When using the exec method with subexpressions, the first entry in the return
+// object will be the whole match, then the following entries will be the
+// particular matches from each subexpression. If no matches for the 
+// subexpression, the entry will read "undefined."
+var quotedText = /'([^']*)'/;
+console.log(quotedText.exec("she said 'hello'"));
+// --> ["'hello'", "hello"]
+
+// If no matches for the subexpression, the entry will read "undefined."
+console.log(/bad(ly)?/.exec("bad"));
+// --> ["bad", undefined]
+// If subexpression matches multiple times, only the last match goes in the 
+// array
+console.log(/(\d)+/.exec("123"));
+// --> ["123", "3"]
+
+// calling new Date with no arguments returns current date and time
+console.log(new Date());
+
+// with arguments, it creates an object for a specific time-- note that month
+// numbers start at 0 rather than 1
+console.log(new Date(2009, 11, 9));
+// --> Wed Dec 09 2009 00:00:00 GMT+0100 (CET)
+console.log(new Date(2009, 11, 9, 12, 59, 59, 999));
+// --> Wed Dec 09 2009 12:59:59 GMT+0100 (CET)
+
+// getTime method returns Unix time-- measured in milliseconds since start of
+// 1970, using negative numbers before 1970
+console.log(new Date(2013, 11, 19).getTime());
+// --> 1387407600000
+console.log(new Date(1387407600000));
+// --> Thu Dec 19 2013 00:00:00 GMT+0100 (CET)
+
+// function to findDate from a string
+function findDate(string) {
+  // assign regular expression to a variable
+  var dateTime = /(\d{1,2})-(\d{1,2})-(\d{4})/;
+  // assign array match to variable, each subexpression match will be after 
+  // first slot in array
+  var match = dateTime.exec(string);
+  return new Date(Number(match[3]), 
+                  Number(match[2])-1, // months are 0-11
+                  Number(match[1]));
+}
+console.log(findDate("30-1-2003"));
+// --> Thu Jan 30 2003 00:00:00 GMT+0100 (CET)
