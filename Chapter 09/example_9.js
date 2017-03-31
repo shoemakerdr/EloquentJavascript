@@ -115,7 +115,7 @@ console.log(new Date(2013, 11, 19).getTime());
 console.log(new Date(1387407600000));
 // --> Thu Dec 19 2013 00:00:00 GMT+0100 (CET)
 
-// function to findDate from a string
+// function to find date from a string and turn it into a new Date object
 function findDate(string) {
   // assign regular expression to a variable
   var dateTime = /(\d{1,2})-(\d{1,2})-(\d{4})/;
@@ -128,3 +128,54 @@ function findDate(string) {
 }
 console.log(findDate("30-1-2003"));
 // --> Thu Jan 30 2003 00:00:00 GMT+0100 (CET)
+
+// \b represents a word boundary but not an actual character
+console.log(/cat/.test("concatenate"));
+// --> true
+console.log(/\bcat\b/.test("concatenate"));
+// --> false
+
+// the pipe characer (|) is used between patterns to denote a choice between 
+// different patterns in subexpressions
+var animalCount = /\b\d+ (pig|cow|chicken)s?\b/;
+console.log(animalCount.test("15 pigs"));
+// --> true
+console.log(animalCount.test("15 pigchickens"));
+// --> false
+
+// replace is a method for strings-- first arg is the pattern to replace (can 
+// be a string or reg ex), and second arg is the string to replace
+console.log("papa".replace("p", "m"));
+// --> mapa
+
+// will only replace first instance of pattern, unless g option (global) is used
+console.log("Borobudur".replace(/[ou]/, "a"));
+// --> Barobudur
+console.log("Borobudur".replace(/[ou]/g, "a"));
+// --> Barabadar
+
+// $1 and $2 refer to subexpressions in match, with $1 being the first
+// subexpression match, $2 the second, etc etc all the way up to $9. $& can be 
+// used to refer to the whole match
+console.log("Hopper, Grace\nMcCarthy, John\nRitchie, Dennis"
+            .replace(/([\w]+), ([\w]+)/g, "$2 $1"));
+// --> Grace Hopper
+//     John McCarthy
+//     Dennis Ritchie
+
+// Functions can be passed as 2nd arguments in the replace method
+var s = "the cia and fbi";
+console.log(s.replace(/\b(fbi|cia)\b/g, function(str) {
+  return str.toUpperCase();
+}));
+// --> the CIA and FBI
+
+var stock = "1 lemon, 2 cabbages, and 101 eggs";
+function minusOne(match, amount, unit) {
+  amount = Number(amount) - 1;
+  if (amount == 1) // only one left, remove the 's'
+    unit = unit.slice(0, unit.length -1);
+  else if (amount == 0)
+    amount = "no";
+  return amount + " " + unit;
+}
