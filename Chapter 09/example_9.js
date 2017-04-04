@@ -263,7 +263,7 @@ console.log(text.replace(regexp, "_$1_"));
 // replace method to change the name string to one with escape characters in
 // front of characters that are actually included in the name.
 var name = "dea+hl[]rd";
-var text = "This dea+hl[]rd guy is super annoying."
+var text = "This dea+hl[]rd guy is super annoying.";
 // With this regular expression, we will match everything that is not a word
 // character or whitespace character, and put "\\" in front of it, so it is 
 // properly escaped when it is concatenated.
@@ -283,6 +283,9 @@ console.log("    ".search(/\S/));
 
 // THE LASTINDEX PROPERTY
 
+// the lastIndex property is a way to set where the next match starts. When a
+// match is found, it is automatically updated to the index directly after the
+// match.
 var pattern = /y/g;
 pattern.lastIndex = 3;
 var match = pattern.exec("xyzzy");
@@ -291,21 +294,31 @@ console.log(match.index);
 console.log(pattern.lastIndex);
 // --> 5
 
+// Each regexp object's lastIndex property holds until match not found. It then
+// resets to 0.
 var digit = /\d/g;
 console.log(digit.exec("here it is: 1"));
 // --> ["1"]
 console.log(digit.exec("and now: 1"));
 // --> null
 
+// When global option is used in a string's match method, it returns an array
+// containing all matched strings
 console.log("Banana".match(/an/g));
 // --> ["an", "an"]
 
 // LOOPING OVER MATCHES
 
+// Since the regexp stores a new lastIndex property every time there is a match,
+// we can use an assignment expression in the while loop condition. It will
+// assign the result of each iterated new match, and it will stop looping when
+// no matches are found (because the value will be null, hence falsey).
 var input = "A string with 3 numbers in it... 42 and 88.";
 var number = /\b(\d+)\b/g;
 var match;
 while (match = number.exec(input))
+  // We use match[1] in every iteration because each new match in this position
+  // will change due to the changing of the lastIndex property
   console.log("Found", match[1], "at", match.index);
 // --> Found 3 at 14
 //     Found 42 at 33
@@ -334,29 +347,40 @@ outputdir=/home/marijn/enemies/gargamel
 // Rules of INI file
 // * Blank lines and lines starting with semicolons are ignored
 // * Lines wrapped in [ and ] start a new section
-// * Lines containing an alphanumeric identifiier followed by an = characer add a 
-// * setting to the current section
+// * Lines containing an alphanumeric identifiier followed by an = character add 
+//   a setting to the current section
 // * Anything else is invalid
 
+// assignment in conditional used similarly to "looping over matches" example
 function parseINI(string) {
   // Start with an object to hold the top-level fields
   var currentSection = {name: null, fields: []};
   var categories = [currentSection];
   
+  // splits string into array by return character or newline character
   string.split(/\r?\n/).forEach(function(line) {
     var match;
-    if (/^\s*(:.*)?$/.test(line)) {
+    // if line  is blank or begins with a ";", return to ignore it
+    if (/^\s*(;.*)?$/.test(line)) {
       return;
+    // if line is wrapped in "[]", match is added to currentSection object and
+    // pushed to categories array
     } else if (match = line.match(/^\[(.*)\]$/)) {
       currentSection = {name: match[1], fields: []};
       categories.push(currentSection);
+    // if line starts with word character(s) followed by "=" followed by
+    // anything except newline character, an object is created-- with first
+    // match going to name property and second match going to value property--
+    // and pushed to the fields array in the currentSection object
     } else if (match = line.match(/^(\w+)=(.*)$/)) {
       currentSection.fields.push({name: match[1],
                                   value: match[2]});
+    // will throw error if line does not meet above requirements
     } else {
       throw new Error("Line '" + line + "' is invalid.");
     }
   });
+  // returns array of section objects
   return categories;
 }
 
