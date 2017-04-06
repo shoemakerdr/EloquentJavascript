@@ -244,10 +244,88 @@ Example code
 </script>
 
 <!--STYLING-->
+  <!--style example-->
+<p><a href=".">Normal link</a></p>
+<p><a href="." style="color: green">Green link</a></p>
+
+  <!--inline style elements-->
+This text is diplayed<strong>inline</strong>,
+<strong style="display: block">as a block</strong>, and
+<strong style="display: none">not at all</strong>.
+
+  <!--changing the style-->
+<p id="para" style="color: purple">Pretty text</p>
+<script>
+  var para = document.getElementById("para");
+  console.log(para.style.color);
+  para.style.color = "magenta";
+</script>
 
 <!--CASCADING STYLES-->
 
+  <!--cascading style sheet-->
+<style>
+  strong {
+    font-style: italic;
+    color: gray;
+  }
+</style>
+<p>Now <strong>strong text</strong> is italic and gray.</p>
+
+ <!--CSS rules-->
+<style>
+  .subtle {
+    color: gray;
+    font-size: 80%;
+  }
+  #header {
+    background: blue;
+    color: white;
+  }
+  /* p elements, with classes a and b, and id main*/
+  p.a.b#main {
+    margin-bottom: 20px;
+  }
+</style>
+
 <!--QUERY SELECTORS-->
+
+<p>And if you go chasing
+  <span class="animal">rabbits</span></p>
+<p>And you know you;re going to fall</p>
+<p>Tell 'em a <span class="character">hookah smoking
+<span class="animal"> caterpillar</span></span></p>
+<p>Has given you the call</p>
+
+<script>
+  function count(selector) {
+    return document.querySelectorAll(selector).length;
+  }
+  console.log(count("p")); // all <p> elements
+  // --> 4
+  console.log(count(".animal")); // Class animal
+  // --> 2
+  console.log(count("p .animal")); // Animal inside of <p>
+  // --> 2
+  console.log(count("p > .animal")); // Direct child of <p>
+  // --> 1
+</script>
 
 <!--POSITIONING AND ANIMATING-->
 
+<p style="text-align: center">
+  <img src="img/cat.png" style="position: relative">
+</p>
+<script>
+  var cat = document.querySelector("img");
+  var angle = 0, lastTime = null;
+  function animate(time) {
+    if (lastTime!= null)
+      angle += (time - lastTime) * 0.001;
+      lastTime = time;
+      cat.style.top = (Math.sin(angle) * 20) + "px";
+      cat.style.left = (Math.cos(angle) * 200) + "px";
+      requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+</script>
