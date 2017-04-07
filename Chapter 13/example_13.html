@@ -166,19 +166,41 @@ Example code
 </script>
 
 <script>
+  // searches a given node for specific keywords and adds a strong tag around 
+  // them to highlight them
   function highlightCode(node, keywords) {
+    // assigns content of text node to variable text
     var text = node.textContent;
-    node.textContent = ""; //Clear the node
+    node.textContent = ""; //Clears the node
 
+    // initializing match variable, and assigning the 0 position to the pos 
+    // variable
     var match, pos = 0;
+    // Normally you shouldn't assign a variable as a condition in a loop 
+    // statement. However, in this situation, we're using it as a semi-shortcut.
+    // Here's how it works: first, it's important to note that the value of an
+    // assignment expression is the assigned value. So as long as the assigned
+    // value is not falsey (null, 0, undefined, etc etc), the loop will continue
+    // and match will be assigned to a new match because it uses the lastIndex 
+    // property until it no longer finds a match (then it will reset the 
+    // lastIndex to 0).
     while (match = keywords.exec(text)) {
+      // assign the text before the match to var before 
       var before = text.slice(pos, match.index);
+      // create and append new text node with before value to node
       node.appendChild(document.createTextNode(before));
+      // create strong element for highlighting match
       var strong = document.createElement("strong");
+      // append/create new text node with match (first match because of 
+      // assignment in while condition)
       strong.appendChild(document.createTextNode(match[0]));
+      // append strong element to node
       node.appendChild(strong);
+      // assign lastIndex to pos variable for next before iteration
       pos = keywords.lastIndex;
     }
+    // after no more matches are found, remaining text is assigned to after 
+    // variable and appended to the node as a new text node
     var after = text.slice(pos);
     node.appendChild(document.createTextNode(after));
   }
@@ -187,17 +209,27 @@ Example code
     javascript: /\b(function|return|var)\b/g /* etc */
   };
   
+  // finds all elements with pre tag and puts a strong tag around specific
+  // keywords
   function highlightAllCode() {
+    // assigns array of pre elements to variable pres
     var pres = document.body.getElementsByTagName("pre");
+    // iterates through pres
     for (var i =0; i < pres.length; i++) {
       var pre = pres[i];
+      // assigns attribute value to variable lang
       var lang = pre.getAttribute("data-language");
+      // checks if lang is property in languages object
       if (languages.hasOwnProperty(lang))
+        // calls highlight code function to highlight specified syntax
         highlightCode(pre, languages[lang]);
     }
   }
 </script>
-
+<!--
+After highlightAllCode is run, "function" and "return" in pre elements will be 
+highlighted
+-->
 <p>Here it is, the identity function:</p>
 <pre data-language="javascript">function id(x) { return x; }</pre>
 
@@ -210,7 +242,10 @@ Example code
 </p>
 
 <script>
+  // first p element assigned to para variable
   var para = document.body.getElementsByTagName("p")[0];
+  // logging clientHeight (height of element not counting border in pixels) and
+  // offsetHeight (height of entire element in pixels)
   console.log("clientHeight:", para.clientHeight);
   console.log("offsetHeight:", para.offsetHeight);
 </script>
@@ -219,12 +254,21 @@ Example code
 <p><span id="two"></span></p>
 
 <script>
+// Repeatedly alternating between reading and changing the DOM layout can make
+// a program run slow. Here are two different implementations of the same 
+// program
+  
+  // time function takes a name and function as it's arguments and calculates
+  // the amount of time the function took to complete in milliseconds
   function time(name, action) {
     var start = Date.now(); // Current time in milliseconds
     action();
     console.log(name, "took", Date.now() - start, "ms");
   }
   
+  // this implementation reads the offsetWidth and then writes to the DOM in 
+  // every iteration of the loop, so it takes more time than the later 
+  // implementation called "clever."
   time("naive", function() {
     var target = document.getElementById("one");
     while (target.offsetWidth < 2000)
@@ -233,6 +277,10 @@ Example code
   
   // --> naive took 32 ms
   
+  // This implementation only reads the offsetwidth once after the initial text
+  // node is created. It takes that node (5 X's) and divides that by 5. It then
+  // divides that number by 2000 to get a total number of X's to be added. It 
+  // uses this number as a counter in the for loop. It taks MUCH less time
   time("clever", function() {
     var target = document.getElementById("two");
     target.appendChild(document.createTextNode("XXXXX"));
@@ -249,6 +297,9 @@ Example code
 <p><a href="." style="color: green">Green link</a></p>
 
   <!--inline style elements-->
+    <!--
+    Default display for p and strong elements is inline. Block display will
+    render on the next line. "Display: none" will not display at all.-->
 This text is diplayed<strong>inline</strong>,
 <strong style="display: block">as a block</strong>, and
 <strong style="display: none">not at all</strong>.
@@ -256,8 +307,11 @@ This text is diplayed<strong>inline</strong>,
   <!--changing the style-->
 <p id="para" style="color: purple">Pretty text</p>
 <script>
+  // assigns p element to para variable
   var para = document.getElementById("para");
+  // logs the color to the console
   console.log(para.style.color);
+  // assigns a new color to the element
   para.style.color = "magenta";
 </script>
 
@@ -265,6 +319,7 @@ This text is diplayed<strong>inline</strong>,
 
   <!--cascading style sheet-->
 <style>
+  /*elements are written as the element name without any symbols*/
   strong {
     font-style: italic;
     color: gray;
@@ -274,15 +329,19 @@ This text is diplayed<strong>inline</strong>,
 
  <!--CSS rules-->
 <style>
+  /*class names are written with . symbol in front*/
   .subtle {
     color: gray;
     font-size: 80%;
   }
+  /*id names are written with # symbol in front*/
   #header {
     background: blue;
     color: white;
   }
-  /* p elements, with classes a and b, and id main*/
+  /* p elements, with classes a and b, and id main--- NOTE: ID's should only be
+  used for ONE single element, so you should never have to use additional
+  parameters when specifiying an ID'd element in CSS*/
   p.a.b#main {
     margin-bottom: 20px;
   }
@@ -298,6 +357,10 @@ This text is diplayed<strong>inline</strong>,
 <p>Has given you the call</p>
 
 <script>
+  // This function returns the total number of a particular specified element in
+  // the DOM using the querySelectorAll method (which returns an array-like
+  // object of a specified selector). Converselly, the querySelector method
+  // returns only the first matching element or null if none found
   function count(selector) {
     return document.querySelectorAll(selector).length;
   }
@@ -317,15 +380,27 @@ This text is diplayed<strong>inline</strong>,
   <img src="img/cat.png" style="position: relative">
 </p>
 <script>
+  // assigns first img element in the document
   var cat = document.querySelector("img");
+  // initializes angle as 0 and lastTime as null
   var angle = 0, lastTime = null;
+  // animate function takes an argument of the current time and moves the cat
+  // img around in an ellipses
   function animate(time) {
+    // if lastTime is not null, assign difference of time from lastTime times
+    // 0.001 to angle
     if (lastTime!= null)
       angle += (time - lastTime) * 0.001;
-      lastTime = time;
-      cat.style.top = (Math.sin(angle) * 20) + "px";
-      cat.style.left = (Math.cos(angle) * 200) + "px";
-      requestAnimationFrame(animate);
+    // assign time to lastTime
+    lastTime = time;
+    // change cat's top position to sine of angle
+    cat.style.top = (Math.sin(angle) * 20) + "px";
+    // change cat's left position to cosine of angle
+    cat.style.left = (Math.cos(angle) * 200) + "px";
+    // recursively call requestAnimationFrame function with this function as
+    // its argument
+    requestAnimationFrame(animate);
   }
+  // call requestAnimationFrame function with animate function as its argument
   requestAnimationFrame(animate);
 </script>
