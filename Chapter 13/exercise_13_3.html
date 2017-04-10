@@ -14,3 +14,27 @@ switch to absolute positioning. This means that top and left are counted
 relative to the top left of the document. To avoid using negative coordinates,
 you can simply add a fixed number of pixels to the position values.
 -->
+
+<!DOCTYPE html>
+<html>
+  <body>
+    <img src="img/cat.png" id="cat" style=position: absolute></img>
+    <img src="img/hat.png" id="hat" style=position: absolute></img>
+  </body>
+  <script>
+  var cat = document.querySelector("#cat");
+  var hat = document.querySelector("#hat");
+  var angle = 0, lastTime = null;
+  function animate(time) {
+    if (lastTime != null)
+      angle += (time - lastTime) * 0.001;
+    lastTime = time;
+    cat.style.top = (Math.sin(angle) * 50) + "px";
+    cat.style.left = ((Math.cos(angle) * 200) + 400) + "px";
+    hat.style.top = (Math.sin(angle) * 50) + "px";
+    hat.style.right = ((Math.cos(angle) * 200) + 200) + "px";
+    requestAnimationFrame(animate);
+  }
+  requestAnimationFrame(animate);
+  </script>
+</html>
