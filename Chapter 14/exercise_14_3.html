@@ -29,14 +29,33 @@ When it works, extend it to also style the currently active button differently.
 	</body>
 	<script>
 		function asTabs(node) {
-			var tabs = Array.prototype.slice.call(node.childNodes);
-			// create button for each child in wrapper
-			// name each button with data-tabname
-			// add click event listener
-				// connect button with corresponding div data-tabname
-				// display div
-				// hide other divs
-			// append buttons to wrapper div
+			var tabs = Array.prototype.slice.call(node.childNodes).filter(function(element) {
+				return element.nodeType === 1;
+			});
+			tabs.forEach(function(element) {
+				element.style.display = "none";
+				var button = document.createElement("button");
+				var attribute = element.getAttribute("data-tabname");
+				button.appendChild(document.createTextNode(attribute));
+				button.addEventListener("click", function() {
+					tabs.forEach(function(element) {
+						element.style.display = "none";
+					});
+					element.style.display = "block";
+				});
+				node.insertBefore(button, tabs[0]);
+			});
+			var buttons = document.querySelectorAll("button");
+			buttons.forEach(function(button) {
+				button.style.background = "white";
+				button.style.outline = "none";
+				button.addEventListener("click", function() {
+					buttons.forEach(function(button) {
+						button.style.background = "white";
+					});
+					button.style.background = "#a5c7ff";
+				});
+			});
 		}
 		asTabs(document.querySelector("#wrapper"));
 	</script>
